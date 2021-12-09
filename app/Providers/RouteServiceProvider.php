@@ -90,13 +90,13 @@ class RouteServiceProvider extends ServiceProvider
               
                 Route::get('/myanouncements', [AnouncementsController::class ,'myAnouncements']);
                 Route::post('/myanouncements/favorite', [AnouncementsController::class ,'favorite']);
-                Route::get('/allanouncements', [AnouncementsController::class ,'allAnouncements']);
                 Route::post('/anouncements/create', [AnouncementsController::class ,'create']);
                 Route::put('/anouncements/update/{id}', [AnouncementsController::class ,'update']);
                 Route::get('/favorites/{user_id}' , [AnouncementsController::class , 'showFavorites']);
                 Route::post('/favorites' , [AnouncementsController::class , 'createFavorites']);
                 Route::delete('/favorites/{favorites_id}' , [AnouncementsController::class , 'deleteFavorites']);
                 Route::get('/anouncements/applied' , [AnouncementsController::class , 'applied']);
+                Route::get('/allanouncements', [AnouncementsController::class ,'allAnouncements']);
                
                 ////
                 
@@ -119,9 +119,9 @@ class RouteServiceProvider extends ServiceProvider
             
 
                 //Projects have to ckeck  ROLE ADMIN
-                Route::get('/projects' , [ProjectsController::class , 'showProjects']);
-                Route::post('/projects' , [ProjectsController::class , 'createProjects']);
-                Route::put('/projects' , [ProjectsController::class , 'updateProjects']);
+                Route::get('/projects/{id}' , [ProjectsController::class , 'showProjects']);
+                Route::post('/projects/create' , [ProjectsController::class , 'createProjects']);
+                Route::put('/projects/{projects_id}' , [ProjectsController::class , 'updateProjects']);
                 Route::delete('/projects/{projects_id}' , [ProjectsController::class , 'deleteProjects']);
 
 
@@ -139,23 +139,6 @@ class RouteServiceProvider extends ServiceProvider
                //Orders routes have to correct
                 Route::post('/orders' , [OrdersController::class , 'myOrders']);
                 Route::delete('/orders/delete/{id}' , [OrdersController::class , 'deleteOrders']);
-
-                // //Files
-                // Route::get('/files/add', 'FilesController@create')->name('files.create');
-                // Route::post('/files/add', 'FilesController@store')->name('files.store'); 
-               // Route::post('/upload-file', [FilesController::class, 'fileUpload'])->name('fileUpload');   
-
-
-
-
-                //tender Global GET
-
-                
-               
-               
-                
-            
-                    
                
 
                 /* Route::get('/user' , [UserController::class , 'profile]);

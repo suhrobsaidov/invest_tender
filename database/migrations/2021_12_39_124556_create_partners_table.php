@@ -17,7 +17,7 @@ class CreatePartnersTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('lot_id');
-            $table->foreign('lot_id')->references('id')->on('lots');
+            $table->foreign('lot_id')->references('id')->on('lots')->onDelete('cascade');
             $table->enum('is_lead' , ['yes' ,'no'])->default('no');
             $table->string('address');
             $table->timestamps();

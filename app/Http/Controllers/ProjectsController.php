@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Subscribers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 
 
@@ -18,62 +19,69 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {
-    public function showProjects(Request $request ,$id)
+    public function showProjects($id)
     {
-        $user = User::where('role' , '=' , 'anouncer')->get();
-        return $user;
+        $projects = Projects::where("project_center_id", $id)->join("users","users.id","=","projects.users_id")->select("projects.*","users.email")->get();
+        
+        return $projects;
     }
-    public function createProjects(Request $request , Projects $projects , User $user)
+    public function createProjects(Request $request)
     {
-        $user = User::create([
-         'email' => $request->input('email'),
-         'password' => bcrypt($request->password),
-        ]);
-    
-        $projects = Projects::create([
-          'name' => $request->input('name'),
-         
-        ]);
-        return $user . $projects;
+       
+        $user = new User();
+        $user->email = $request->input('email');
+        $user->role = 'anouncer';
+        $user->password = bcrypt(Str::random(10));
+        $user->save();
+
+       $project= new Projects;
+       $project->name = $request->input('project_name');
+       $project->project_center_id = $request->input('project_center_id');
+       $project->users_id = $user->id;
+       
+       $project->save();
+       
          
         return response()->json([
             "message" => "Success"
         ], 201);
-    }
-       
+    
+}  
     
     public function updateProjects(Request $request ,$id)
     {
      
-       
-        $projects = User::find($id);
-        $projects->email = $request->input('email',$projects->email);
-        $projects->password = bcrypt($request->password);
-        $projects->role =  'anouncer';
-        $projects->save();
-        return response()->json([
-            "message" => "Success"
-        ], 201);
+        $projects = Projects::find($id);
+        if($projects === null){
+            return response()->json(["message" => "Not found"],404);
+        }
+        else{
+            $user = User::find($projects->users_id);
+            $user->email = $request->input('email',$projects->email);
+            $projects->name = $request->input('name',$projects->name);
+            $user->save();
+            $projects->save();
+            return response()->json([
+                "message" => "Success"
+            ], 201);
+        }
       }
     
 
-    public function deleteProjects(Request $request ,$id)
+    public function deleteProjects($id)
     {
-       
-        $projects = User::find($id);
-        $projects->delete();
-        return response()->json([
-            "message" => "Success"
-        ], 201);
+        $projects = Projects::find($id);
+        if($projects === null){
+            return response()->json(["message" => "Not found"],404);
+        }
+        else{
+            $user = User::find($projects->users_id);
+            $projects->delete();
+            $user->delete();
+            return response()->json([
+                "message" => "Success"
+            ], 201);
+        }
       
-    }
-    public function projects(Request $request ,$id)
-    {
-        
-            return "ok";
-      
-
-     
-
     }
 }

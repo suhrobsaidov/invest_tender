@@ -20,7 +20,6 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('anouncements_id');
             $table->foreign('anouncements_id')->references('id')->on('anouncements');
             $table->enum('response_security_submited' ,['yes','no']);
-            $table->integer('lot_number');
             $table->float('currency_somoni');
             $table->float('vat_somoni');
             $table->float('currency_dollar');

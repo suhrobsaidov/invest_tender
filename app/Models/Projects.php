@@ -10,7 +10,7 @@ class Projects extends Model
     use HasFactory;
     protected $fillable =[
         'name',
-        'projects_center_id'
+      
     ];
 
 

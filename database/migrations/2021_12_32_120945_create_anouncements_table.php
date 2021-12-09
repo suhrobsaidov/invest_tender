@@ -16,11 +16,11 @@ class CreateAnouncementsTable extends Migration
         Schema::create('anouncements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->integer('number_of_lots');
             $table->unsignedBigInteger('projects_id')->nullable();
-            $table->foreign('projects_id')->references('id')->on('projects');
+            $table->foreign('projects_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('project_center_anouncement_id');
             $table->string('type_of_procurement');
             $table->string('procurement_method')->nullable();

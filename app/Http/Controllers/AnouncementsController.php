@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Anouncement;
 use App\Models\Anouncements_translations;
 use App\Models\Orders;
@@ -21,18 +22,18 @@ class AnouncementsController extends Controller
 {
 
  
-  public function __construct()
-  {
-      $this->middleware('auth:api');
-  }
+  // public function __construct()
+  // {
+  //     $this->middleware('auth:api');
+  // }
 
  
   public function allAnouncements()
   {
      
-          return Anouncement::all();
+    $anouncements = Orders::join("anouncements","anouncements.id","=","orders.anouncements_id")->groupBy("anouncements.id")->select("anouncements.*", DB::raw('count(*) as total'))->get();
       
-     
+    return $anouncements;
   }
   public function myAnouncements()
   {
@@ -150,7 +151,7 @@ public function deleteFavorites(Request $request ,$id)
       
   public function update(Request $request ,$id)
   {
-    $header = $request->header('Authorization');
+   
         $anouncements = Anouncement::find($id);
         if (Anouncement::where('id', $id)->exists()) {
         
@@ -187,18 +188,5 @@ public function deleteFavorites(Request $request ,$id)
       
 
   }
-
-  public function applied()
-  {
-    $user = User::where('role' , '=' , 'subscribers')->get();
-    $anouncements_subscribers = Anouncement::where('users_id' ,$user)->get();
-    return $anouncements_subscribers;
-
-
-   
-    
-
-  }
- 
  
 }
