@@ -11,11 +11,10 @@ class File extends Model
     protected $table = 'files';
 
     protected $fillable = [
-        'user_id',
+        'users_id',
         'name',
         'path',
-        'type',
-        'size'
+        
     ];
     public function user()
     {

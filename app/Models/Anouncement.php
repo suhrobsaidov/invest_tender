@@ -11,14 +11,23 @@ class Anouncement extends Model
 
      
     protected $fillable = [
-        'files',
+        
         'tender_owner',
         'orders_id',
-        'lot_name',
+        'projects_id',
+        'name',
         'tender_title',
         'deadline',
         'price',
-        'description'
+        'description',
+        'procurement_method',
+        'type_of_procurement',
+        'project_center_anouncement_id',
+        'number_of_lots'
+
+
+
+
     ];
 
    
@@ -29,5 +38,9 @@ class Anouncement extends Model
     public function Users()
     {
         $this->belongsTo(User::class);
+    }
+    public function projects()
+    {
+        $this->belongsTo(Projects::class);
     }
 }

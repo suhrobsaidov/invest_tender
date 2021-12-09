@@ -18,6 +18,7 @@ class OrdersController extends Controller
    public function myOrders(Request $request)
    
    {
+    
       $orders = new Orders();
       $orders['users_id'] = $request->user()->id;
       $orders->anouncements_id = $request->input('anouncements_id');
@@ -29,8 +30,9 @@ class OrdersController extends Controller
      ], 200);
    }
 
-    public function deleteOrders()
+    public function deleteOrders(Request $request ,$id)
     {
+    
       if(Orders::where('id', $id)->exists()) {
          $orders = Orders::find($id);
          $orders->delete();
@@ -39,8 +41,9 @@ class OrdersController extends Controller
         ], 202);
     }
    }
-   public function all()
+   public function all(Request $request)
    {
+     
       return Orders::all();
    }
 

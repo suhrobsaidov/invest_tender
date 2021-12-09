@@ -3,26 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProjectCenter;
+use App\Models\ProjectsCenter;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectCenterController extends Controller
 {
-   public function showProjectsCenter ()
+   public function showProjectsCenter (Request $request)
    {
-      return ProjectCenter::all();
+    
+      return ProjectsCenter::all();
    }
    public function createProjectsCenter (Request $request)
    {
+    $rules = [
+                'name' => 'required|unique:Projects_Centers'
+                ];
+    $validator = Validator::make($request->all(), $rules);
+    if ($validator->fails())
+    {
+        return  $validator->messages();
+    }
+    else{
        
-    $projectCenter = new Project_center;
+    $projectsCenter = new ProjectsCenter;
     $projectsCenter->name = $request->input('name');
+    $projectsCenter->save();
+    return response()->json('Project has been created ' , 201);
 
-
+    }
    }
-   public function updateProjectsCenter($id)
+   public function updateProjectsCenter(Request $request ,$id)
    {
-    $projectsCenter = Project_center::find($id);
-    if (Project_center::where('id', $id)->exists()) {
+    
+    $projectsCenter = ProjectsCenter::find($id);
+    if (ProjectsCenter::where('id', $id)->exists()) {
+
+        $projectsCenter->name = $request->input('name' );
+        $projectsCenter->save();
+
         return response()->json([
             "message" => "Success"
         ], 201);
@@ -36,10 +54,11 @@ class ProjectCenterController extends Controller
     
        
    }
-   public function deleteProjectsCenter($id)
+   public function deleteProjectsCenter(Request $request ,$id)
    {
-    if(Project_center::where('id', $id)->exists()) {
-        $Project_center = Project_center::find($id);
+   
+    if(ProjectsCenter::where('id', $id)->exists()) {
+        $Project_center = ProjectsCenter::find($id);
         $Project_center->delete();
         return response()->json([
            "message" => "Record deleted"

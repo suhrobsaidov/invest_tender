@@ -9,7 +9,20 @@ class Projects extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'project_name',
-        'anouncements_id'
+        'name',
+        'projects_center_id'
     ];
+
+
+public function anouncements()
+{
+    $this->hasOne(Anouncements::class);
+}
+public function user()
+{
+    $this->belongsTo(User::class);
+}
+
+
+
 }

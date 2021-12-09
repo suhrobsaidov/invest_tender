@@ -21,6 +21,7 @@ class ProfileController extends Controller
 
     public function profile(Request $request ,$id)
 {
+    $header = $request->header('Authorization');
 
             $subscribers_profile = Subscribers::find($id);
            
@@ -37,23 +38,25 @@ class ProfileController extends Controller
 
     public function update(Request $request ,$id)
     {
+        $header = $request->header('Authorization');
         $subscribers = Subscribers::find($id);
         if (Subscribers::where('id', $id)->exists()) {
 
             $subscribers->name = $request->input('name',$subscribers->name);
             $subscribers->last_name = $request->input('last_name',$subscribers->last_name);
             $subscribers->middle_name = $request->input('middle_name',$subscribers->middle_name);
-            $subscribers->company_name = $request->input('company_name',$subscribers->company_name);
             $subscribers->division = $request->input('division',$subscribers->division);
-            $subscribers->company_country = $request->input('company_country',$subscribers->company_country);
+            $subscribers->company_name = $request->input('company_name',$subscribers->company_name);
             $subscribers->inn = $request->input('inn',$subscribers->inn);
-            $subscribers->phone = $request->input('phone',$subscribers->phone);
             $subscribers->email = $request->input('email',$subscribers->email);
-            $subscribers->town = $request->input('town', $subscribers->town);
-            $subscribers->postal_code = $request->input('postal_code', $subscribers->postal_code);
             $subscribers->address_line1 = $request->input('address_line1', $subscribers->address_line1);
             $subscribers->address_line2 = $request->input('address_line2', $subscribers->address_line2);
             $subscribers->address_line3 = $request->input('address_line3', $subscribers->address_line3);
+            $subscribers->phone = $request->input('phone',$subscribers->phone);
+            $subscribers->company_country = $request->input('company_country',$subscribers->company_country);
+            $subscribers->town = $request->input('town', $subscribers->town);
+            $subscribers->postal_code = $request->input('postal_code', $subscribers->postal_code);
+            
             $subscribers->update();
           
          
@@ -86,6 +89,8 @@ class ProfileController extends Controller
     }
     public function updatePassword(Request $request , $id)
     { 
+        
+
         $user = User::find($id);
         if (User::where('id', $id)->exists()) {
 

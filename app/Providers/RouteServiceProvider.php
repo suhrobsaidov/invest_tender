@@ -10,10 +10,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\ProjectCenterController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Payments\Controller;
 use App\Http\Controllers\ForgotPasswordController;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -91,26 +91,42 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('/myanouncements', [AnouncementsController::class ,'myAnouncements']);
                 Route::post('/myanouncements/favorite', [AnouncementsController::class ,'favorite']);
                 Route::get('/allanouncements', [AnouncementsController::class ,'allAnouncements']);
-                Route::post('/anouncements', [AnouncementsController::class ,'create']);
+                Route::post('/anouncements/create', [AnouncementsController::class ,'create']);
                 Route::put('/anouncements/update/{id}', [AnouncementsController::class ,'update']);
                 Route::get('/favorites/{user_id}' , [AnouncementsController::class , 'showFavorites']);
                 Route::post('/favorites' , [AnouncementsController::class , 'createFavorites']);
                 Route::delete('/favorites/{favorites_id}' , [AnouncementsController::class , 'deleteFavorites']);
+                Route::get('/anouncements/applied' , [AnouncementsController::class , 'applied']);
                
+                ////
+                
+                //Admin routes //tested works 100%
+
+                Route::get('anouncers/all' , [AdminController::class , 'allAnouncers']);
+                Route::post('/anouncer/add', [AdminController::class , 'createAnouncer']);
+                Route::put('/anouncer/update/{id}', [AdminController::class , 'updateAnouncer']);  
+                Route::delete('/anouncer/delete/{id}', [AdminController::class , 'deleteAnouncer']);  
+                Route::post('/projects/add', [ProjectsController::class , 'projects']); 
+                
+                   
+
+                //projects_center
+                Route::get('/projects_center' , [ProjectCenterController::class , 'showProjectsCenter']);
+                Route::get('/projectcenter/projects/{id}' ,[ProjectsController::class ,'projects' ]);
+                Route::post('/projects_center/create' , [ProjectCenterController::class , 'createProjectsCenter']);
+                Route::put('/projects_center/update/{id}' , [ProjectCenterController::class , 'updateProjectsCenter']);
+                Route::delete('/projects_center/delete/{id}' , [ProjectCenterController::class , 'deleteProjectsCenter']);
             
 
                 //Projects have to ckeck  ROLE ADMIN
-                Route::get('/projects/{projects_id}' , [ProjectsController::class , 'showProjects']);
+                Route::get('/projects' , [ProjectsController::class , 'showProjects']);
                 Route::post('/projects' , [ProjectsController::class , 'createProjects']);
                 Route::put('/projects' , [ProjectsController::class , 'updateProjects']);
                 Route::delete('/projects/{projects_id}' , [ProjectsController::class , 'deleteProjects']);
 
 
                  //Projects_center  haver to check role ADMIN
-                 Route::get('/projects_center/{projects_center_id}' , [ProjectsController::class , 'showProjectsCenter']);
-                 Route::post('/projects_center' , [ProjectsController::class , 'createProjectsCenter']);
-                 Route::put('/projects_center' , [ProjectsController::class , 'updateProjectsCenter']);
-                 Route::delete('/projects_center/{projects_center_id}' , [ProjectsController::class , 'deleteProjectsCenter']);
+                
                 
 
                 //payments routes have to check
@@ -126,15 +142,9 @@ class RouteServiceProvider extends ServiceProvider
 
                 // //Files
                 // Route::get('/files/add', 'FilesController@create')->name('files.create');
-                // Route::post('/files/add', 'FilesController@store')->name('files.store');    
+                // Route::post('/files/add', 'FilesController@store')->name('files.store'); 
+               // Route::post('/upload-file', [FilesController::class, 'fileUpload'])->name('fileUpload');   
 
-
-                //Admin routes //tested works 100%
-
-                Route::post('/anouncer/add', [AdminController::class , 'createAnouncer']);
-                Route::put('/anouncer/update/{id}', [AdminController::class , 'updateAnouncer']);  
-                Route::delete('/anouncer/delete/{id}', [AdminController::class , 'deleteAnouncer']);      
-                   
 
 
 

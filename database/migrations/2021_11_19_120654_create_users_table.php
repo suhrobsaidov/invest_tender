@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['subscribers','admin','anouncer'])->default('subscribers');
             $table->string('password');
+        
            /* $table->unsignedBigInteger('subscribers_id');
             $table->foreign('subscribers_id')->references('id')->on('subscribers');*/
             $table->rememberToken();

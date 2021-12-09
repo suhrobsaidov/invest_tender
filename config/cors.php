@@ -17,7 +17,7 @@ return [
 
     'paths' => ['api/*', 'api/auth/*'],
 
-    'allowed_methods' => ['POST','GET','PUT'],
+    'allowed_methods' => ['POST','GET','PUT' ,'UPDATE' ,'DELETE'],
 
     'allowed_origins' => ['http://localhost:4200' ,'http://localhost:63367' , '*'],
 

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\Projects;
+use App\Models\ProjectsCenter;
+use App\Models\User;
+use App\Models\Subscribers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,29 +18,38 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {
-    public function showProjects()
+    public function showProjects(Request $request ,$id)
     {
-        return Projects::all();
+        $user = User::where('role' , '=' , 'anouncer')->get();
+        return $user;
     }
-    public function createProjects()
+    public function createProjects(Request $request , Projects $projects , User $user)
     {
-        $projects = new Projects();
-        $prjects->project_name = $request->input('project_name');
-        $prjects->anouncements_id = $request->input('anouncements_id');
-        $projects->save();
-        
+        $user = User::create([
+         'email' => $request->input('email'),
+         'password' => bcrypt($request->password),
+        ]);
+    
+        $projects = Projects::create([
+          'name' => $request->input('name'),
+         
+        ]);
+        return $user . $projects;
+         
         return response()->json([
             "message" => "Success"
         ], 201);
-      
-       
     }
-    public function updateProjects($id)
-    {
        
-        $projects = Projects::find($id);
-        $projects->name = $request->input('projects_mame',$projects->name);
-        $projects->anouncements_id = $request->input('anouncements_id');
+    
+    public function updateProjects(Request $request ,$id)
+    {
+     
+       
+        $projects = User::find($id);
+        $projects->email = $request->input('email',$projects->email);
+        $projects->password = bcrypt($request->password);
+        $projects->role =  'anouncer';
         $projects->save();
         return response()->json([
             "message" => "Success"
@@ -45,13 +57,23 @@ class ProjectsController extends Controller
       }
     
 
-    public function deleteProjects()
+    public function deleteProjects(Request $request ,$id)
     {
-        $projects = Projects::find($id);
+       
+        $projects = User::find($id);
         $projects->delete();
         return response()->json([
             "message" => "Success"
         ], 201);
       
+    }
+    public function projects(Request $request ,$id)
+    {
+        
+            return "ok";
+      
+
+     
+
     }
 }

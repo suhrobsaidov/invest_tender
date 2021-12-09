@@ -162,8 +162,10 @@ class AuthController extends Controller
         ]);
     }
 
-    private function User($id)
+    private function User(Request $request ,$id)
     {
+        $header = $request->header('Authorization');
+
         $user = User::find(1);
 
         $payload = JWTFactory::sub($user->id)

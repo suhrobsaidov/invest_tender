@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'email',
         'password',
+       
         
       
 
@@ -62,6 +63,10 @@ class User extends Authenticatable implements JWTSubject
    {
     $this->hasMany(Anouncement::class);
    }
+   public function projects()
+   {
+       $this->hasMany(Projects::class);
+   }
 
     public function payments()
     {
@@ -82,5 +87,16 @@ class User extends Authenticatable implements JWTSubject
        return [$user = User::where('id' ,$user_id)->get('role')];
         }
 
-}
+
+       }
+    public function tokenValid()
+{
+    if (Carbon::parse($this->attributes['expires_at']) < Carbon::now()) {
+        return true;
     }
+    return false;
+}
+
+
+    
+}
